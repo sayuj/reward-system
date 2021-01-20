@@ -15,14 +15,14 @@ class RewardTree
   # -> It skips if the node is already present in the tree.
   # -> It creates a new node and append to the tree.
   # -> It updates points to the inviters.
-  def add(id:, inviter:, accepted:)
+  def add(id:, inviter:)
     # Skip this if the node is already present in the tree.
     return if nodes[id]
 
     node = RewardTreeNode.new(
       id: id,
       inviter: inviter_node(inviter),
-      accepted: accepted
+      accepted: false
     )
     nodes[id] = node
     update_points_to_inviters(node: node, level: 0)
@@ -61,6 +61,9 @@ class RewardTree
   def update_points_to_inviters(node:, level:)
     # Skip this if it is not accepted.
     return unless node.accepted
+
+    # Skip this if there is no inviter.
+    return unless node.inviter
 
     inviter = node.inviter
     inviter.points += 0.5**level

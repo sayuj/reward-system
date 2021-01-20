@@ -11,12 +11,10 @@ require_relative 'reward_system/reward_system_error'
 # calculate the reward points.
 class RewardSystem
   attr_reader :input, :customer_tree, :formatted_records
-  attr_accessor :reward_tree
 
   def initialize(input)
     InputValidator.new(input).call
     @formatted_records = RecordFormatter.new(input).call
-    @reward_tree = RewardTree.new
     build_reward_tree
   end
 
@@ -36,15 +34,15 @@ class RewardSystem
     end
   end
 
+  def add_to_tree(record)
+    reward_tree.add(id: record.invitee, inviter: record.inviter)
+  end
+
   def update_tree(record)
     reward_tree.accept(record.invitee)
   end
 
-  def add_to_tree(record)
-    reward_tree.add(
-      id: record.invitee,
-      inviter: record.inviter,
-      accepted: false
-    )
+  def reward_tree
+    @reward_tree ||= RewardTree.new
   end
 end

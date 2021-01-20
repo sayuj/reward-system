@@ -8,10 +8,11 @@ require 'time'
 #   inviter => the one who invited the invitee.
 #   invitee => the one who received an invitation.
 class FormattedRecord
-  attr_reader :raw_record, :datetime, :inviter, :invitee, :action
+  attr_reader :raw_record, :datetime, :inviter, :invitee, :action, :index
 
-  def initialize(raw_record)
+  def initialize(raw_record, index)
     @raw_record = raw_record
+    @index = index
     set_attributes
   end
 

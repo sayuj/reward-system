@@ -5,12 +5,15 @@ source 'https://rubygems.org'
 
 group :development, :test do
   gem 'pry'
-  gem 'rack-test'
-  gem 'rspec'
 end
 
 group :development do
   gem 'rubocop'
+end
+
+group :test do
+  gem 'rack-test'
+  gem 'rspec'
 end
 
 gem 'puma'
