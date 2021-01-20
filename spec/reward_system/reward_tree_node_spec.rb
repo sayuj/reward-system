@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RewardTreeNode do
   it 'returns a node' do
     node = RewardTreeNode.new(id: 'B', inviter: 'A', accepted: false)

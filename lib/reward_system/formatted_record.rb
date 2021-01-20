@@ -1,5 +1,12 @@
+# frozen_string_literal: true
+
 require 'time'
 
+# Represents a reward input record in a formatted way.
+#   datetime => datetime of the action performed.
+#   action => the action performed - recommends or accepts.
+#   inviter => the one who invited the invitee.
+#   invitee => the one who received an invitation.
 class FormattedRecord
   attr_reader :raw_record, :datetime, :inviter, :invitee, :action
 
@@ -11,7 +18,7 @@ class FormattedRecord
   private
 
   def set_attributes
-    elements = raw_record.split(' ')
+    elements = raw_record.split
     @datetime = format_datetime(elements[0], elements[1])
     @action = elements[3]
     @inviter = extract_inviter(elements[2])

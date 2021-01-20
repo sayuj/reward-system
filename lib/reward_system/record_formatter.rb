@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
+# Parse the input and format each record.
 class RecordFormatter
-  attr_reader :input 
+  attr_reader :input
 
   def initialize(input)
     @input = input
   end
 
-  def call 
+  def call
     input.split("\n").map do |record|
       record.strip!
       next if record.empty?

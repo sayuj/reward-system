@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RewardTree do
   describe '.add' do
     it 'adds a node to the tree' do
       subject.add(id: 'B', inviter: 'A', accepted: false)
-      expect(subject.nodes.keys).to eq ['A', 'B']
+      expect(subject.nodes.keys).to eq %w[A B]
     end
   end
 
   describe '.update' do
     it 'updates a node in the tree' do
       subject.add(id: 'B', inviter: 'A', accepted: false)
-      subject.update(id: 'B', accepted: true)
+      subject.accept('B')
       expect(subject.nodes['B'].accepted).to eq true
     end
   end

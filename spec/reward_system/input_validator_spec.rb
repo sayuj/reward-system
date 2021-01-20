@@ -1,4 +1,6 @@
-require 'spec_helper.rb'
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 describe InputValidator do
   context 'invalid datetime' do
@@ -21,7 +23,9 @@ describe InputValidator do
     let(:input) { '2018-06-12 09:41 A recommends' }
 
     it 'raise error if invitee is missing for recommends action' do
-      expect { InputValidator.new(input).call }.to raise_error('Error at line 1: Invitee is missing for recommends action.')
+      expect do
+        InputValidator.new(input).call
+      end.to raise_error('Error at line 1: Invitee is missing for recommends action.')
     end
   end
 

@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'pry'
 
+# Parse and validates the input.
 class InputValidator
-  VALID_ACTIONS = ['recommends', 'accepts']
+  VALID_ACTIONS = %w[recommends accepts].freeze
 
   attr_reader :input
 
@@ -21,7 +24,7 @@ class InputValidator
   private
 
   def validate(record, index)
-    elements = record.split(' ')
+    elements = record.split
     validate_datetime(elements[0], elements[1])
     validate_action(elements[3])
     validate_invitee(elements[2], elements[3], elements[4])
@@ -31,7 +34,7 @@ class InputValidator
 
   def validate_datetime(date, time)
     Time.parse("#{date} #{time}")
-  rescue
+  rescue ArgumentError
     error!('Invalid datetime')
   end
 
@@ -40,23 +43,20 @@ class InputValidator
   end
 
   def validate_invitee(element1, action, element2)
-    case action
-    when 'recommends'
+    if action == 'recommends'
       error!('Invitee is missing for recommends action') if element2.nil? || element2.strip.empty?
-    when 'accepts'
-      unless all_invitees.include?(element1)
-        error!("#{element1} has no invitation to accept")
-      end
+    else
+      error!("#{element1} has no invitation to accept") unless all_invitees.include?(element1)
     end
   end
 
   def all_invitees
     @all_invitees ||= input.split("\n")
-      .select { |record| record.include?('recommends') }
-      .map { |record| record.split(' ')[4] }
+                           .select { |record| record.include?('recommends') }
+                           .map { |record| record.split[4] }
   end
 
   def error!(message)
-    raise RewardSystemError.new(message)
+    raise RewardSystemError, message
   end
 end
