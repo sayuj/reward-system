@@ -2,12 +2,14 @@ require_relative 'record_formatter'
 require_relative 'formatted_record'
 require_relative 'reward_tree'
 require_relative 'reward_tree_node'
+require_relative 'input_validator'
 
 class RewardSystem
   attr_reader :input, :customer_tree, :formatted_records
   attr_accessor :reward_tree
 
   def initialize(input)
+    InputValidator.new(input).call
     @formatted_records = RecordFormatter.new(input).call
     @reward_tree = RewardTree.new
     build_reward_tree
