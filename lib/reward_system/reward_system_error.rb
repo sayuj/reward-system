@@ -1,0 +1,2 @@
+class RewardSystemError < RuntimeError
+end

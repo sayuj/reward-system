@@ -1,8 +1,9 @@
-require_relative 'record_formatter'
-require_relative 'formatted_record'
-require_relative 'reward_tree'
-require_relative 'reward_tree_node'
-require_relative 'input_validator'
+require_relative 'reward_system/record_formatter'
+require_relative 'reward_system/formatted_record'
+require_relative 'reward_system/reward_tree'
+require_relative 'reward_system/reward_tree_node'
+require_relative 'reward_system/input_validator'
+require_relative 'reward_system/reward_system_error'
 
 class RewardSystem
   attr_reader :input, :customer_tree, :formatted_records
@@ -19,7 +20,7 @@ class RewardSystem
     reward_tree.nodes.transform_values(&:points).reject { |_k, v| v.zero? }
   end
 
-  private 
+  private
 
   def build_reward_tree
     formatted_records.each do |record|

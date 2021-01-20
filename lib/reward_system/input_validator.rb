@@ -25,27 +25,27 @@ class InputValidator
     validate_datetime(elements[0], elements[1])
     validate_action(elements[3])
     validate_invitee(elements[2], elements[3], elements[4])
-  rescue => e
-    raise "Error at line #{index + 1}: #{e.message}."
+  rescue RewardSystemError => e
+    error!("Error at line #{index + 1}: #{e.message}.")
   end
 
   def validate_datetime(date, time)
     Time.parse("#{date} #{time}")
   rescue
-    raise 'Invalid datetime'
+    error!('Invalid datetime')
   end
 
   def validate_action(action)
-    raise 'Invalid action' unless VALID_ACTIONS.include?(action)
+    error!('Invalid action') unless VALID_ACTIONS.include?(action)
   end
 
   def validate_invitee(element1, action, element2)
     case action
     when 'recommends'
-      raise 'Invitee is missing for recommends action' if element2.nil? || element2.strip.empty?
+      error!('Invitee is missing for recommends action') if element2.nil? || element2.strip.empty?
     when 'accepts'
       unless all_invitees.include?(element1)
-        raise "#{element1} has no invitation to accept"
+        error!("#{element1} has no invitation to accept")
       end
     end
   end
@@ -54,5 +54,9 @@ class InputValidator
     @all_invitees ||= input.split("\n")
       .select { |record| record.include?('recommends') }
       .map { |record| record.split(' ')[4] }
+  end
+
+  def error!(message)
+    raise RewardSystemError.new(message)
   end
 end

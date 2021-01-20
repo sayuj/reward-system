@@ -15,8 +15,8 @@ class RewardTree
     end
 
     node = RewardTreeNode.new(
-      id: id, 
-      inviter: inviter_node, 
+      id: id,
+      inviter: inviter_node,
       accepted: accepted
     )
     nodes[id] = node
@@ -25,6 +25,9 @@ class RewardTree
 
   def update(id:, accepted:)
     node = nodes[id]
+    raise RewardSystemError.new("#{id} has no invitation to accept") unless node
+    return if node.accepted
+
     node.accepted = accepted
     update_points_to_inviters(node: node, level: 0) if accepted
   end
