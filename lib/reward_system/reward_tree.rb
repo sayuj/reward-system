@@ -19,9 +19,10 @@ class RewardTree
     # Skip this if the node is already present in the tree.
     return if nodes[id]
 
+    inviter_node = inviter_node(inviter)
     node = RewardTreeNode.new(
       id: id,
-      inviter: inviter_node(inviter),
+      inviter: inviter_node.id,
       accepted: false
     )
     nodes[id] = node
@@ -65,7 +66,7 @@ class RewardTree
     # Skip this if there is no inviter.
     return unless node.inviter
 
-    inviter = node.inviter
+    inviter = nodes[node.inviter]
     inviter.points += 0.5**level
 
     update_points_to_inviters(node: inviter, level: level + 1)

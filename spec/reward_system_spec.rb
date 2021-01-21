@@ -85,12 +85,14 @@ describe RewardSystem do
       end
 
       it 'returns the reward points for each customers' do
-        expect { RewardSystem.new(input).points }.to raise_error('B has no invitation to accept')
+        expect do
+          RewardSystem.new(input).points
+        end.to raise_error('B has no invitation to accept')
       end
     end
   end
 
-  context 'someone recommends an existing customer and the customer tries to accept' do
+  context 'existing customer tries to accept an invitation' do
     let(:input) do
       %(
         2018-06-12 09:41 A recommends B

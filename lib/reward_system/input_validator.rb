@@ -27,7 +27,8 @@ class InputValidator
     elements = record.split
     validate_datetime(elements[0], elements[1])
     validate_action(elements[3])
-    validate_invitee(elements[2], elements[3], elements[4])
+    validate_invitee(elements[3], elements[4])
+    validate_invitation(elements[3], elements[2])
   rescue RewardSystemError => e
     error!("Error at line #{index + 1}: #{e.message}.")
   end
@@ -39,15 +40,29 @@ class InputValidator
   end
 
   def validate_action(action)
-    error!('Invalid action') unless VALID_ACTIONS.include?(action)
+    return if VALID_ACTIONS.include?(action)
+
+    error!('Invalid action')
   end
 
-  def validate_invitee(element1, action, element2)
-    if action == 'recommends'
-      error!('Invitee is missing for recommends action') if element2.nil? || element2.strip.empty?
-    else
-      error!("#{element1} has no invitation to accept") unless all_invitees.include?(element1)
-    end
+  def validate_invitee(action, invitee)
+    return unless invitee_missing?(action, invitee)
+
+    error!('Invitee is missing for recommends action')
+  end
+
+  def validate_invitation(action, invitee)
+    return unless no_invitation?(action, invitee)
+
+    error!("#{invitee} has no invitation to accept")
+  end
+
+  def invitee_missing?(action, invitee)
+    action == 'recommends' && (invitee.nil? || invitee.strip.empty?)
+  end
+
+  def no_invitation?(action, invitee)
+    action == 'accepts' && !all_invitees.include?(invitee)
   end
 
   def all_invitees

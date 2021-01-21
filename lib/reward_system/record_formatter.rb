@@ -22,6 +22,9 @@ class RecordFormatter
     FormattedRecord.new(record, index) unless record.empty?
   end
 
+  # Sort the formatted records by the datetime.
+  # Make sure the records with the same datetime
+  # ordered by index, i.e. the position in the input.
   def sort(formatted_records)
     formatted_records.sort do |first, second|
       [first.datetime, first.index] <=> [second.datetime, second.index]

@@ -7,7 +7,7 @@ require_relative 'reward_system/reward_tree_node'
 require_relative 'reward_system/input_validator'
 require_relative 'reward_system/reward_system_error'
 
-# Validate and vonverts the raw input of rewards and
+# Validate and converts the raw input of rewards and
 # calculate the reward points.
 class RewardSystem
   attr_reader :input, :customer_tree, :formatted_records
@@ -18,6 +18,8 @@ class RewardSystem
     build_reward_tree
   end
 
+  # Get the points from the reward tree and exclude the
+  # elements with zero points.
   def points
     reward_tree.nodes.transform_values(&:points).reject { |_k, v| v.zero? }
   end

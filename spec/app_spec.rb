@@ -22,6 +22,7 @@ describe 'reward system web app', type: :request do
     body = '2018-06-120 09:41 A recommends B'
 
     post '/rewards', body
-    expect(last_response.body).to eq({ error: 'Error at line 1: Invalid datetime.' }.to_json)
+    error = 'Error at line 1: Invalid datetime.'
+    expect(last_response.body).to eq({ error: error }.to_json)
   end
 end

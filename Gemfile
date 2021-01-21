@@ -17,5 +17,4 @@ group :test do
   gem 'simplecov'
 end
 
-gem 'puma'
 gem 'sinatra'
