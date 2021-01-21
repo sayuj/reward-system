@@ -3,6 +3,10 @@
 require 'spec_helper'
 
 describe RecordFormatter do
+  subject(:records) do
+    described_class.new(input).call
+  end
+
   let(:input) do
     %(
       2018-06-12 09:41 A recommends B
@@ -15,17 +19,11 @@ describe RecordFormatter do
     )
   end
 
-  subject do
-    RecordFormatter.new(input).call
-  end
-
-  it 'returns array of formatted records' do
-    expect(subject[0].inviter).to eq  'A'
-    expect(subject[0].invitee).to eq  'B'
-    expect(subject[0].action).to eq 'recommends'
-    expect(subject[0].datetime).to eq Time.parse('2018-06-12 09:41')
-    expect(subject[1].inviter).to eq  nil
-    expect(subject[1].invitee).to eq  'B'
-    expect(subject[1].action).to eq 'accepts'
-  end
+  it { expect(records[0].inviter).to eq 'A' }
+  it { expect(records[0].invitee).to eq 'B' }
+  it { expect(records[0].action).to eq 'recommends' }
+  it { expect(records[0].datetime).to eq Time.parse('2018-06-12 09:41') }
+  it { expect(records[1].inviter).to eq nil }
+  it { expect(records[1].invitee).to eq 'B' }
+  it { expect(records[1].action).to eq 'accepts' }
 end

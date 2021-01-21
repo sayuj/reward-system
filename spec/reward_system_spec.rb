@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe RewardSystem do
-  context 'sorted input' do
+  context 'with sorted input' do
     let(:input) do
       %(
         2018-06-12 09:41 A recommends B
@@ -17,12 +17,12 @@ describe RewardSystem do
     end
 
     it 'returns the reward points for each customers' do
-      points = RewardSystem.new(input).points
+      points = described_class.new(input).points
       expect(points).to eq({ 'A' => 1.75, 'B' => 1.5, 'C' => 1.0 })
     end
   end
 
-  context 'unsorted input' do
+  context 'with unsorted input' do
     let(:input) do
       %(
         2018-06-12 09:41 A recommends B
@@ -36,12 +36,12 @@ describe RewardSystem do
     end
 
     it 'returns the reward points for each customers' do
-      points = RewardSystem.new(input).points
+      points = described_class.new(input).points
       expect(points).to eq({ 'A' => 1.75, 'B' => 1.5, 'C' => 1.0 })
     end
   end
 
-  context 'multiple accepts by same invitee' do
+  context 'when multiple accepts by same invitee' do
     let(:input) do
       %(
         2018-06-12 09:41 A recommends B
@@ -56,13 +56,13 @@ describe RewardSystem do
     end
 
     it 'returns the reward points for each customers' do
-      points = RewardSystem.new(input).points
+      points = described_class.new(input).points
       expect(points).to eq({ 'A' => 1.75, 'B' => 1.5, 'C' => 1.0 })
     end
   end
 
-  context 'recommends and accepts at same time' do
-    context 'recommends listed above accepts in the command list' do
+  context 'when recommends and accepts are given at the same time' do
+    context 'when recommends listed above accepts in the command list' do
       let(:input) do
         %(
           2018-06-12 09:41 A recommends B
@@ -71,12 +71,12 @@ describe RewardSystem do
       end
 
       it 'returns the reward points for each customers' do
-        points = RewardSystem.new(input).points
+        points = described_class.new(input).points
         expect(points).to eq({ 'A' => 1 })
       end
     end
 
-    context 'accepts listed above recommends in the command list' do
+    context 'when accepts listed above recommends in the command list' do
       let(:input) do
         %(
           2018-06-12 09:41 B accepts
@@ -86,13 +86,13 @@ describe RewardSystem do
 
       it 'returns the reward points for each customers' do
         expect do
-          RewardSystem.new(input).points
+          described_class.new(input).points
         end.to raise_error('B has no invitation to accept')
       end
     end
   end
 
-  context 'existing customer tries to accept an invitation' do
+  context 'when existing customer tries to accept an invitation' do
     let(:input) do
       %(
         2018-06-12 09:41 A recommends B
@@ -105,12 +105,12 @@ describe RewardSystem do
     end
 
     it 'ignore invitation to existing customer and calculate points' do
-      points = RewardSystem.new(input).points
+      points = described_class.new(input).points
       expect(points).to eq({ 'A' => 1.5, 'B' => 1 })
     end
   end
 
-  context 'one receives invitation and invite other without accepting' do
+  context 'when one receives invitation and invite other without accepting' do
     let(:input) do
       %(
         2018-06-12 09:41 A recommends B
@@ -121,7 +121,7 @@ describe RewardSystem do
     end
 
     it 'ignore accepts command for existing customer' do
-      points = RewardSystem.new(input).points
+      points = described_class.new(input).points
       expect(points).to eq({ 'B' => 1.0 })
     end
   end

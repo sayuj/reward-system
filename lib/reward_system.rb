@@ -10,11 +10,11 @@ require_relative 'reward_system/reward_system_error'
 # Validate and converts the raw input of rewards and
 # calculate the reward points.
 class RewardSystem
-  attr_reader :input, :customer_tree, :formatted_records
+  attr_reader :input, :customer_tree, :records
 
   def initialize(input)
     InputValidator.new(input).call
-    @formatted_records = RecordFormatter.new(input).call
+    @records = RecordFormatter.new(input).call
     build_reward_tree
   end
 
@@ -27,7 +27,7 @@ class RewardSystem
   private
 
   def build_reward_tree
-    formatted_records.each do |record|
+    records.each do |record|
       if record.action == 'recommends'
         add_to_tree(record)
       else

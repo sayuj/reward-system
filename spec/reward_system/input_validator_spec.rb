@@ -3,39 +3,39 @@
 require 'spec_helper'
 
 describe InputValidator do
-  context 'invalid datetime' do
+  context 'with invalid datetime' do
     let(:input) { '2018-06-120 09:41 A recommends B' }
 
     it 'raise error if the datetime is invalid' do
       error = 'Error at line 1: Invalid datetime.'
-      expect { InputValidator.new(input).call }.to raise_error(error)
+      expect { described_class.new(input).call }.to raise_error(error)
     end
   end
 
-  context 'invalid action' do
+  context 'with invalid action' do
     let(:input) { '2018-06-12 09:41 A invalid B' }
 
     it 'raise error if the action is invalid' do
       error = 'Error at line 1: Invalid action.'
-      expect { InputValidator.new(input).call }.to raise_error(error)
+      expect { described_class.new(input).call }.to raise_error(error)
     end
   end
 
-  context 'invitee is missing for recommends action' do
+  context 'when invitee is missing for recommends action' do
     let(:input) { '2018-06-12 09:41 A recommends' }
 
     it 'raise error if invitee is missing for recommends action' do
       error = 'Error at line 1: Invitee is missing for recommends action.'
-      expect { InputValidator.new(input).call }.to raise_error(error)
+      expect { described_class.new(input).call }.to raise_error(error)
     end
   end
 
-  context 'inviter is missing for accepts action' do
+  context 'when inviter is missing for accepts action' do
     let(:input) { '2018-06-12 09:41 A accepts' }
 
     it 'raise error if inviter is missing for accepts action' do
       error = 'Error at line 1: A has no invitation to accept.'
-      expect { InputValidator.new(input).call }.to raise_error(error)
+      expect { described_class.new(input).call }.to raise_error(error)
     end
   end
 end

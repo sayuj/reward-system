@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'time'
-
 # Represents a reward input record in a formatted way.
 #   datetime => datetime of the action performed.
 #   action => the action performed - recommends or accepts.

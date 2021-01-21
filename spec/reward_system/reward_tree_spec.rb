@@ -3,45 +3,62 @@
 require 'spec_helper'
 
 describe RewardTree do
+  subject(:tree) { described_class.new }
+
   describe '.add' do
     it 'adds a node to the tree' do
-      subject.add(id: 'B', inviter: 'A')
-      expect(subject.nodes.keys).to eq %w[A B]
+      tree.add(id: 'B', inviter: 'A')
+      expect(tree.nodes.keys).to eq %w[A B]
     end
   end
 
   describe '.update' do
     it 'updates a node in the tree' do
-      subject.add(id: 'B', inviter: 'A')
-      subject.accept('B')
-      expect(subject.nodes['B'].accepted).to eq true
+      tree.add(id: 'B', inviter: 'A')
+      tree.accept('B')
+      expect(tree.nodes['B'].accepted).to eq true
     end
   end
 
-  context 'points' do
-    it 'add points to inviter for level 0 inviter' do
-      subject.add(id: 'B', inviter: 'A')
-      subject.accept('B')
-      expect(subject.nodes['A'].points).to eq 1
+  describe 'point calculation' do
+    context 'with level 0 inviter only' do
+      before do
+        tree.add(id: 'B', inviter: 'A')
+        tree.accept('B')
+      end
+
+      it 'add points to inviter for level 0 inviter' do
+        expect(tree.nodes['A'].points).to eq 1
+      end
     end
 
-    it 'add points to inviter for level 0 - 1 inviters' do
-      subject.add(id: 'B', inviter: 'A')
-      subject.accept('B')
-      subject.add(id: 'C', inviter: 'B')
-      subject.accept('C')
-      expect(subject.nodes['A'].points).to eq 1.5
+    context 'with level 0 - 1 inviters' do
+      before do
+        tree.add(id: 'B', inviter: 'A')
+        tree.accept('B')
+        tree.add(id: 'C', inviter: 'B')
+        tree.accept('C')
+      end
+
+      it 'add points to inviter for level 0 - 1 inviters' do
+        expect(tree.nodes['A'].points).to eq 1.5
+      end
     end
 
-    it 'add points to inviter for level 0 - 2 inviters' do
-      subject.add(id: 'B', inviter: 'A')
-      subject.accept('B')
-      subject.add(id: 'C', inviter: 'B')
-      subject.accept('C')
-      subject.add(id: 'D', inviter: 'C')
-      subject.accept('D')
-      subject.add(id: 'E', inviter: 'C')
-      expect(subject.nodes['A'].points).to eq 1.75
+    context 'with level 0 - 2 inviters' do
+      before do
+        tree.add(id: 'B', inviter: 'A')
+        tree.accept('B')
+        tree.add(id: 'C', inviter: 'B')
+        tree.accept('C')
+        tree.add(id: 'D', inviter: 'C')
+        tree.accept('D')
+        tree.add(id: 'E', inviter: 'C')
+      end
+
+      it 'add points to inviter for level 0 - 2 inviters' do
+        expect(tree.nodes['A'].points).to eq 1.75
+      end
     end
   end
 end
