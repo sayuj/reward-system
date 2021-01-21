@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 # Parse and validates the input.
 class InputValidator
   VALID_ACTIONS = %w[recommends accepts].freeze
