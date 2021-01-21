@@ -52,9 +52,7 @@ to the inviter based on the acceptance of the
 invitee.
 
 ## Setup instructions
-
 ### Prerequisites
-
 The setups steps expect following tools installed
 on the system.
 
@@ -73,7 +71,6 @@ bundle install
 ```
 
 ### 3. Run RSpec test
-
 All RSpec files are in spec/ directory.
 
 ```bash
@@ -81,21 +78,18 @@ bundle exec rspec
 ```
 
 ### 4. Check code coverage
-
 Code coverage is configured for RSpec tests.
 `SimpleCov` is used for this.
 Open `coverage/index.html` in any browser
 to see the coverage report.
 
 ### 5. Check code style
-
 RuboCop is used for static code styling.
 
 ```bash
 bundle exec rubocop
 ```
 ### 6. Start the application server
-
 You can start the application server using the
 command given below.
 
@@ -103,15 +97,20 @@ command given below.
 bundle exec ruby app.rb
 ```
 
-## Usage
+## Deployment
+The latest version of this has been deployed to
+Heroku.
 
+URL: https://reward-point.herokuapp.com/
+
+## Usage
 This can be use in 2 different ways to calculate
 reward points.
 
 ### 1. Input as a file
 
 ```bash
-curl --location --request POST 'http://localhost:4567/rewards' \
+curl --location --request POST 'https://reward-point.herokuapp.com/rewards' \
     --header 'Content-Type: text/plain' \
     --data-binary '@/path/to/file'
 ```
@@ -119,7 +118,7 @@ curl --location --request POST 'http://localhost:4567/rewards' \
 ### 2. Input as raw text
 
 ```bash
-curl --location --request POST 'http://localhost:4567/rewards' \
+curl --location --request POST 'https://reward-point.herokuapp.com/rewards' \
     --header 'Content-Type: text/plain' \
     --data-raw '2018-06-12 09:41 A recommends B
     2018-06-12 09:41 A recommends B

@@ -36,3 +36,10 @@ post '/rewards' do
 rescue RewardSystemError => e
   { error: e.message }.to_json
 end
+
+# A simple endpoint with a link to the git repo.
+get '/' do
+  'Visit ' \
+  '<a href="https://github.com/sayuj/reward-system">git repo</a> ' \
+  'for more details.'
+end
