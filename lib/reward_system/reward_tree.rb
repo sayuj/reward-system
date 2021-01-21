@@ -80,6 +80,7 @@ class RewardTree
       inviter_node = RewardTreeNode.new(id: inviter)
       nodes[inviter] = inviter_node
     end
+    inviter_node.inviter = nil unless inviter_node.accepted
     inviter_node
   end
 end

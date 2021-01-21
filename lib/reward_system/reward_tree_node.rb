@@ -6,8 +6,8 @@
 #   accepted => true if accepted; false otherwise.
 #   points => points gained by inviting others.
 class RewardTreeNode
-  attr_reader :id, :inviter
-  attr_accessor :accepted, :points
+  attr_reader :id
+  attr_accessor :inviter, :accepted, :points
 
   def initialize(id:, inviter: nil, accepted: false)
     @id = id

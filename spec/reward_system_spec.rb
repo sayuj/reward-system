@@ -109,4 +109,20 @@ describe RewardSystem do
       expect(points).to eq({ 'A' => 1.5, 'B' => 1 })
     end
   end
+
+  context 'one receives invitation and invite other without accepting' do
+    let(:input) do
+      %(
+        2018-06-12 09:41 A recommends B
+        2018-06-16 09:41 B recommends C
+        2018-06-17 09:41 B accepts
+        2018-06-18 09:41 C accepts
+      )
+    end
+
+    it 'ignore accepts command for existing customer' do
+      points = RewardSystem.new(input).points
+      expect(points).to eq({ 'B' => 1.0 })
+    end
+  end
 end
