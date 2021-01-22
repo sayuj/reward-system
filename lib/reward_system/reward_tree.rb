@@ -19,7 +19,7 @@ class RewardTree
     # Skip this if the node is already present in the tree.
     return if nodes[id]
 
-    inviter_node = inviter_node(inviter)
+    inviter_node = find_or_create_node(inviter)
     node = RewardTreeNode.new(
       id: id,
       inviter: inviter_node.id,
@@ -74,11 +74,17 @@ class RewardTree
 
   private
 
-  def inviter_node(inviter)
-    inviter_node = nodes[inviter]
+  # Find or create node.
+  # -> It finds node by id from the nodes in the tree.
+  # -> If there is not node present, then it creates a
+  #    node and insert into the tree.
+  # -> It clears the inviter if not accepted.
+  # -> It returns the node.
+  def find_or_create_node(id)
+    inviter_node = nodes[id]
     unless inviter_node
-      inviter_node = RewardTreeNode.new(id: inviter)
-      nodes[inviter] = inviter_node
+      inviter_node = RewardTreeNode.new(id: id)
+      nodes[id] = inviter_node
     end
     inviter_node.inviter = nil unless inviter_node.accepted
     inviter_node
